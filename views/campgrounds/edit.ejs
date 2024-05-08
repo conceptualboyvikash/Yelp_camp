@@ -1,0 +1,85 @@
+<% layout('./Layout/boilerplate') %>
+<h1>Please Fill correct Details</h1>
+
+<form
+  action="/campgrounds/<%=campg._id %>/?_method=put"
+  method="post"
+  class="needs-validation"
+  novalidate
+  enctype="multipart/form-data"
+>
+  <div class="col-md-4  ">
+    <label for="title"  class="form-label">Title</label>
+    <input
+      type="text"
+      name="title"
+      id="title"
+      value="<%=campg.title %>"
+      required
+      class="form-control"
+     
+     
+    />
+    <div class="valid-feedback">Looks good!</div>
+  </div>
+
+  <div class="col-md-4">
+    <label for="location" class="form-label">Location</label>
+    <input
+      type="text"
+      name="location"
+      id="location"
+      value="<%=campg.location %>"
+      required
+      class="form-control"
+    />
+    <div class="valid-feedback">Looks good!</div>
+  </div>
+
+  <div class="col-md-4">
+    <label for="price" >Price</label>
+    <input
+      type="text"
+      name="price"
+      id="price"
+      value="<%=campg.price %>"
+      required
+      class="form-control"
+    />
+    <label for="dis">Discription</label>
+    <div class="valid-feedback">Looks good!</div>
+  </div>
+
+  <div class="col-md-4">
+    <label for="image" class="form-label">Add Images</label>
+    <input type="file" name="image" id="image" multiple>
+  </div>
+
+  <div class="col-md-4">
+    <textarea
+      type="text"
+      name="description"
+      id="dist"
+      rows="12"
+      cols="15"
+      required
+      class="form-control"
+    >
+<%=campg.description %></textarea
+    >
+    <div class="valid-feedback">Looks good!</div>
+  </div>
+  <div class="mb-3">
+    <% campg.img.forEach((im,i)=>{ %>
+        <img  src="<%=im.thumbnail%>" alt="No image">;
+        <div class="form-check-inline">
+          <input type="checkbox" id="image-<%=i%>" name="deleteImage[]" value="<%=im.filename %>">
+        </div>
+        <label for="image-<%=i%>">Delete ?</label>
+      <% }) %>
+  </div>
+  <!--  -->
+  <button>Submit</button>
+</form>
+<p><a href="/campgrounds">Go to Home</a></p>
+<p><a href="/campgrounds/<%=campg._id %>">Cancel</a></p>

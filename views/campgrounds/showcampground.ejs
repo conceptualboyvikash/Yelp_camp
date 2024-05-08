@@ -1,0 +1,108 @@
+<% layout('./Layout/boilerplate') %>
+<link rel="stylesheet" href="/stylesheet/star.css">
+
+<h1><%=success%></h1>
+<div class="d-flex flex-column justify-content-center w-100 align-items-center">
+
+<div class="card" style="width: 20rem;">
+  <div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+      <% campg.img.forEach((el,i) => {%>
+       
+        <div class="carousel-item <%= i===0? 'active':'' %>">
+        <img src="<%=el.url%>" width="auto" height="200px" alt="No Image found">
+      </div>
+      <%}); %>
+      
+    </div>
+    <% if(campg.img.length>1){ %>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+    <% } %>
+  </div>
+  
+  <div class="card-body"> 
+    <h6>Name:-<%=campg.title%>,Price:-<%=campg.price%>,Location:-<%=campg.location%></h6>
+    <p class="text-muted">Author:-<%=campg.author.username%></p>
+    
+    <p class="card-text text-muted"><%=campg.description%> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi atque </p>
+   <a href="/campgrounds"> <button class="btn btn-primary mx-3">Home</button></a>
+   <a href="/campgrounds/new"> <button class="btn btn-secondary mx-3">New</button></a>
+   
+   <% if(campg.author.equals(currentUser._id)){%>
+   <a href="/campgrounds/<%=campg._id %>/edit"> <button class="btn btn-success mx-3">Edit</button></a>
+    <form action="/campgrounds/<%=campg._id %>/?_method=DELETE" method="post">
+      <button class="btn btn-danger mx-3 my-3">Delete</button>
+    </form>
+    <% } %>
+  </div>
+</div>
+
+
+<div>
+<h2>Review</h2>
+<form action="/campgrounds/<%=campg._id%>/reviews" class="my-3 needs-validation" novalidate style="width: 20rem;" method="post">
+  <div>
+  <fieldset class="starability-basic">
+   
+    <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+    <input type="radio" id="first-rate1" name="rating" value="1" />
+    <label for="first-rate1" title="Terrible">1 star</label>
+    <input type="radio" id="first-rate2" name="rating" value="2" />
+    <label for="first-rate2" title="Not good">2 stars</label>
+    <input type="radio" id="first-rate3" name="rating" value="3" />
+    <label for="first-rate3" title="Average">3 stars</label>
+    <input type="radio" id="first-rate4" name="rating" value="4" />
+    <label for="first-rate4" title="Very good">4 stars</label>
+    <input type="radio" id="first-rate5" name="rating" value="5" />
+    <label for="first-rate5" title="Amazing">5 stars</label>
+  </fieldset>
+</div>
+  <div  class="my-3">
+      <label for="review-text" class="form-label">Write Your Review</label>
+      <textarea name="body"  class="form-control" id="review-text" cols="10" rows="2" placeholder="Describe about this place" required></textarea>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+  </div>
+  <button class="btn btn-primary">Submit Your Review</button>
+</form>
+</div>
+
+<div  class="my-3 ">
+
+<% for(let re of campg.reviews){ %>
+  <div class="container border my-1 form-control ">
+    <p class="starability-result" data-rating="<%=re.rating%>"></p>
+    <h6>Author-<%=re.author.username %></h6>
+    <p>Comment:<%=re.body %></p>
+    <% if(re.author.equals(currentUser._id)){%>
+    <form action="/campgrounds/<%=campg._id %>/reviews/<%=re._id%>?_method=DELETE" method="POST">
+      <button class="btn btn-sm btn-danger">Delete</button>
+    </form>
+    <%} %>
+  </div>
+<%}%>
+</div>
+
+</div>
+
+
+
+
+
+
+    
+    
+   
+   
+
+    
+
+
